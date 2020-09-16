@@ -27,6 +27,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer f.Close()
+
 	cli := &http.Client{
 		Transport: lhl.NewTransport(f),
 	}
