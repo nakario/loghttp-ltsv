@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
-	"testing"
-	"time"
 	"strconv"
 	"strings"
+	"testing"
+	"time"
 )
 
 type test struct {
-	got string
+	got  string
 	want string
 }
 
@@ -56,7 +56,7 @@ func TestRoundTrip(t *testing.T) {
 	}
 
 	cli.Get(ts.URL + "/foo?def=5&abc=3")
-	cli.Post(ts.URL + "/e", "text/plain", bytes.NewBufferString("a"))
+	cli.Post(ts.URL+"/e", "text/plain", bytes.NewBufferString("a"))
 	cli.Get(ts.URL + "/bar")
 
 	log := buf.String()

@@ -17,7 +17,7 @@ import (
 // response pair.
 type Transport struct {
 	Transport http.RoundTripper
-	w io.Writer
+	w         io.Writer
 }
 
 // NewTransport returns a new Transport which writes ltsv-formatted
@@ -70,7 +70,7 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 			return nil, err
 		}
 	}
-	
+
 	return resp, nil
 }
 

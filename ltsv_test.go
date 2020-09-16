@@ -6,9 +6,9 @@ import (
 )
 
 func TestLv(t *testing.T) {
-	tests := []struct{
-		key string
-		value interface{}
+	tests := []struct {
+		key    string
+		value  interface{}
 		wanted string
 	}{
 		{"a", 3, "a:3"},
@@ -17,7 +17,7 @@ func TestLv(t *testing.T) {
 		{"a::a", "a::a", "a;;a:a::a"},
 		{"", "", ":-"},
 	}
-	
+
 	for i, v := range tests {
 		t.Run(fmt.Sprint("case", i), func(t *testing.T) {
 			got := lv(v.key, v.value)
@@ -29,8 +29,8 @@ func TestLv(t *testing.T) {
 }
 
 func TestLtsv(t *testing.T) {
-	tests := []struct{
-		lvs []string
+	tests := []struct {
+		lvs    []string
 		wanted string
 	}{
 		{[]string{
