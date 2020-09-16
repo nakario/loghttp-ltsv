@@ -5,8 +5,10 @@
 package loghttpltsv
 
 import (
+	"bytes"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"time"
 )
@@ -31,8 +33,18 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 
 	resp, err := t.transport().RoundTrip(req)
 	if err != nil {
-		return resp, err
+		return nil, err
 	}
+
+	// resp.ContentLength == -1 when the response is chunked or compressed.
+	// This implementation has problems with a big response body.
+	newBody := &bytes.Buffer{}
+	size, err := newBody.ReadFrom(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+	resp.Body.Close()
+	resp.Body = ioutil.NopCloser(newBody)
 
 	duration := time.Now().Sub(start).Seconds()
 	durStr := fmt.Sprintf("%.3f", duration)
@@ -44,7 +56,7 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 		lv("method", req.Method),
 		lv("uri", req.URL.RequestURI()),
 		lv("status", resp.StatusCode),
-		lv("size", resp.ContentLength),
+		lv("size", size),
 		lv("referer", req.Referer()),
 		lv("ua", req.UserAgent()),
 		lv("response_time", durStr),
@@ -55,7 +67,7 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	if t.w != nil {
 		_, err := t.w.Write([]byte(ltsv(lvs) + "\n"))
 		if err != nil {
-			return resp, err
+			return nil, err
 		}
 	}
 	
