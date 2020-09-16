@@ -31,8 +31,8 @@ func main() {
 		Transport: lhl.NewTransport(f),
 	}
 
-  resp, err := cli.Get(os.Args[1])
-  ...
+	resp, err := cli.Get(os.Args[1])
+	...
 }
 ```
 
