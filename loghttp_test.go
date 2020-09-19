@@ -92,6 +92,9 @@ func TestRoundTrip(t *testing.T) {
 		})
 	}
 
+	if _, ok := log0["time"]; !ok {
+		t.Errorf("log0 doesn't contain 'time'")
+	}
 	if _, ok := log0["response_time"]; !ok {
 		t.Errorf("log0 doesn't contain 'response_time'")
 	}

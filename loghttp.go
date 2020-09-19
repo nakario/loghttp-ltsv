@@ -50,6 +50,7 @@ func (t *Transport) RoundTrip(req *http.Request) (*http.Response, error) {
 	durStr := fmt.Sprintf("%.3f", duration)
 
 	lvs := []string{
+		lv("time", time.Now().Format("02/Jan/2006:15:04:05 -0700")),
 		lv("host", "127.0.0.1"),
 		lv("forwardedfor", ""),
 		lv("req", fmt.Sprintf("%s %s %s", req.Method, req.URL.RequestURI(), req.Proto)),
